@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  color?: "primary";
+  color?: "primary" | "secondary";
 }
 
 const button = tv({
@@ -14,6 +14,7 @@ const button = tv({
   variants: {
     color: {
       primary: twMerge("bg-[#CF5185]", "hover:bg-[#d16692]"),
+      secondary: twMerge("bg-blue-600", "hover:bg-blue-500"),
     },
   },
 });

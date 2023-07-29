@@ -1,4 +1,7 @@
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 import { Navbar } from "@/components/Navbar";
+import { Mail } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 export default function Home() {
@@ -20,6 +23,11 @@ export default function Home() {
               </strong>{" "}
               from one place and pay on schedule that works for you.
             </span>
+
+            <div className="flex items-center gap-2">
+              <Input icon={Mail} placeholder="Your Email Address" />
+              <Button color="secondary">Get Started</Button>
+            </div>
           </div>
 
           <span>Right side</span>
