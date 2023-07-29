@@ -1,17 +1,28 @@
 import { LucideIcon } from "lucide-react";
-import { HTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps extends HTMLAttributes<HTMLInputElement> {
+interface InputProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   icon: LucideIcon;
 }
 
-export function Input({ icon: Icon, ...rest }: InputProps) {
+export function Input({ icon: Icon, className, ...rest }: InputProps) {
   return (
-    <div className="px-3 py-2 flex items-center gap-3 border-2 border-slate-800 bg-slate-800 rounded-md focus-within:border-slate-300">
+    <div
+      className={twMerge(
+        "px-3 py-2 flex items-center gap-3 border-2 border-slate-800 bg-slate-800 rounded-md",
+        "focus-within:border-slate-300",
+        "invalid:border-red-600",
+        className
+      )}
+    >
       <Icon strokeWidth={1.25} size={20} />
       <input
-        className={twMerge("bg-transparent text-sm outline-none")}
+        className={twMerge("bg-transparent text-sm outline-none w-full")}
         {...rest}
       />
     </div>

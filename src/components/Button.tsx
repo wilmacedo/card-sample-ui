@@ -1,15 +1,20 @@
-import { HTMLAttributes } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   color?: "primary" | "secondary";
 }
 
 const button = tv({
   base: twMerge(
     "px-3.5 py-2 text-sm text-slate-200 bg-slate-900 rounded-md",
-    "hover:bg-slate-800"
+    "hover:bg-slate-800",
+    "disabled:cursor-not-allowed"
   ),
   variants: {
     color: {
