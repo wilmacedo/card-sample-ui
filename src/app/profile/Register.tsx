@@ -105,6 +105,9 @@ export function Register({ token, userId }: RegisterProps) {
       });
 
       if (request.status === 201) {
+        toast({
+          title: "Card added successfully!",
+        });
         router.refresh();
         router.push("/profile#wallet");
         return;
