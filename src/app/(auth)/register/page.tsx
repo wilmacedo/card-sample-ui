@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { useToast } from "@/components/ui/use-toast";
+import { env } from "@/env";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
@@ -39,7 +40,7 @@ export default function Register() {
   }
 
   async function handleRegister(data: RegisterSchema) {
-    const request = await fetch("http://localhost:3333/users", {
+    const request = await fetch(env.HOST + "/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +57,7 @@ export default function Register() {
       return;
     }
 
-    router.push("/profile");
+    router.push("/login");
   }
 
   return (
