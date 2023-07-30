@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/Button";
 import { Card } from "@/types";
+import { checkCardType } from "@/utils/check-card-type";
 import { FolderRoot } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -32,6 +33,10 @@ export function Wallet({ cards }: WalletProps) {
     return cardList.find((_, index) => index === selectedIndex);
   }
 
+  function getCardType(number: string) {
+    return checkCardType(number) || "MASTERCARD";
+  }
+
   function handleSelect(index: number) {
     if (flipped === true) setFlipped(false);
     if (selected === index) return;
@@ -56,9 +61,11 @@ export function Wallet({ cards }: WalletProps) {
           {cards.map((card, index) => (
             <div
               key={index}
+              data-selected={selected === index}
               className={twMerge(
                 "px-2.5 py-2 flex items-center justify-between border-b border-gray-800 cursor-pointer",
-                "hover:bg-gray-900"
+                "hover:bg-gray-900",
+                "data-[selected=true]:bg-gray-900"
               )}
               onClick={() => handleSelect(index)}
             >
@@ -71,10 +78,10 @@ export function Wallet({ cards }: WalletProps) {
 
               <div className="flex items-center gap-1">
                 <Image
-                  src="/mastercard-logo.png"
+                  src={`/${getCardType(getCard()?.number || "")}-logo.png`}
                   width={100}
                   height={100}
-                  alt="Mastercard"
+                  alt={getCardType(getCard()?.number || "")}
                   className="h-[.85rem] w-auto"
                 />
                 <Button onClick={() => handleFlip(index)}>
@@ -105,10 +112,10 @@ export function Wallet({ cards }: WalletProps) {
                       {getCard()?.cardholder}
                     </span>
                     <Image
-                      src="/mastercard-logo.png"
+                      src={`/${getCardType(getCard()?.number || "")}-logo.png`}
                       width={100}
                       height={100}
-                      alt="Mastercard"
+                      alt={getCardType(getCard()?.number || "")}
                       className="h-[1rem] w-auto"
                     />
                   </div>

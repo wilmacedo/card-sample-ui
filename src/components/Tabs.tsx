@@ -39,7 +39,7 @@ export function Tabs({ tabs }: TabsProps) {
           </button>
         ))}
       </div>
-      <div className="w-full mt-4">
+      <div className="w-full mt-8">
         {tabs.find((_, index) => index === active)?.children}
       </div>
     </div>

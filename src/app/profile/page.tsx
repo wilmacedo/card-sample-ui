@@ -4,6 +4,7 @@ import { env } from "@/env";
 import { AuthData, Card } from "@/types";
 import { cookies } from "next/headers";
 import { twMerge } from "tailwind-merge";
+import { Register } from "./Register";
 import { Wallet } from "./Wallet";
 
 async function getCardList(userId: string, token: string | null) {
@@ -107,13 +108,8 @@ export default async function Profile() {
 
         <Tabs
           tabs={[
-            {
-              title: "Wallet",
-              children: (
-                <Wallet cards={[...cardList, ...cardList, ...cardList]} />
-              ),
-            },
-            { title: "Register", children: <h1>New Card</h1> },
+            { title: "Wallet", children: <Wallet cards={cardList} /> },
+            { title: "Register", children: <Register /> },
           ]}
         />
       </div>

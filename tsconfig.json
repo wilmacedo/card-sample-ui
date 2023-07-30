@@ -27,8 +27,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "cypress/support/tsconfig.json"
+    ".next/types/**/*.ts"
+    // "cypress/support/tsconfig.json"
   ],
   "exclude": ["node_modules"]
 }
