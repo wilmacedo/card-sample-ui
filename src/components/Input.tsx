@@ -19,6 +19,7 @@ export function Input({ icon: Icon, className, ...rest }: InputProps) {
         "invalid:border-red-600",
         className
       )}
+      data-testid="input"
     >
       <Icon strokeWidth={1.25} size={20} />
       <input

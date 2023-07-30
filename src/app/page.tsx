@@ -79,7 +79,7 @@ export default function Home() {
                     <div className="bg-black rounded-t-full w-6 h-[.75rem] rotate-90" />
 
                     <div className="mt-12 flex flex-col gap-2">
-                      <span className="text-black">5663 3322 7884 3965</span>
+                      <span className="text-black">XXXX XXXX XXXX 3965</span>
                       <div className="flex justify-between items-center">
                         <span className="text-black text-sm">Wil Macedo</span>
                         <Image
