@@ -16,5 +16,9 @@ export default function Logout() {
     router.push("/");
   }, [router]);
 
-  return <div>Redirecting...</div>;
+  return (
+    <div>
+      <span>Redirecting...</span>
+    </div>
+  );
 }

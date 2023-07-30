@@ -181,7 +181,12 @@ export function Register({ token, userId }: RegisterProps) {
             </div>
           </div>
 
-          <Button className="mt-4" color="secondary" disabled={!isValid}>
+          <Button
+            className="mt-4"
+            color="secondary"
+            disabled={!isValid}
+            type="submit"
+          >
             Add
           </Button>
         </form>
