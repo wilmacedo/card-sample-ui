@@ -1,3 +1,9 @@
+import { Navbar } from "@/components/Navbar";
+
 export default function Profile() {
-  return <h1>Profile page</h1>;
+  return (
+    <div className="w-screen h-screen">
+      <Navbar context="privaty" />
+    </div>
+  );
 }

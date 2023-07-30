@@ -5,7 +5,7 @@ let navbar: HTMLElement | null;
 
 describe("Navbar case", () => {
   beforeEach(() => {
-    render(<Navbar />);
+    render(<Navbar context="general" />);
 
     navbar = document.querySelector("nav");
   });

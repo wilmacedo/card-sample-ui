@@ -1,8 +1,13 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
 import { Button } from "./Button";
 
-export function Navbar() {
+interface NavbarProps {
+  context: "privaty" | "general";
+}
+
+export function Navbar({ context }: NavbarProps) {
   return (
     <nav
       className={twMerge(
@@ -22,14 +27,24 @@ export function Navbar() {
           "sm:mt-0 sm:flex-row"
         )}
       >
-        <Link href="/login">
-          <Button className="w-full sm:w-auto">Log In</Button>
-        </Link>
-        <Link href="/register">
-          <Button className="w-full sm:w-auto" color="primary">
-            Get Started
-          </Button>
-        </Link>
+        {context !== "privaty" && (
+          <Fragment>
+            <Link href="/login">
+              <Button className="w-full sm:w-auto">Log In</Button>
+            </Link>
+            <Link href="/register">
+              <Button className="w-full sm:w-auto" color="primary">
+                Get Started
+              </Button>
+            </Link>
+          </Fragment>
+        )}
+
+        {context === "privaty" && (
+          <Link href="/logout">
+            <Button className="w-full sm:w-auto">Log out</Button>
+          </Link>
+        )}
       </div>
     </nav>
   );
