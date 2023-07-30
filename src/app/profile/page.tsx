@@ -8,22 +8,26 @@ import { Register } from "./Register";
 import { Wallet } from "./Wallet";
 
 async function getCardList(userId: string, token: string | null) {
-  const request = await fetch(env.HOST + "/cards/" + userId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + String(token),
-    },
-  });
+  try {
+    const request = await fetch(env.HOST + "/cards/" + userId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(token),
+      },
+    });
 
-  if (!request.ok) {
+    if (!request.ok) {
+      return [];
+    }
+
+    const response = await request.json();
+    if (!response.cards) return [];
+
+    return response.cards as Card[];
+  } catch (error) {
     return [];
   }
-
-  const response = await request.json();
-  if (!response.cards) return [];
-
-  return response.cards as Card[];
 }
 
 export default async function Profile() {
