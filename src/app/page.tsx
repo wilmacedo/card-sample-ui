@@ -1,11 +1,30 @@
+"use client";
+
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Navbar } from "@/components/Navbar";
 import { CreditCard, Mail, PauseCircle } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function Home() {
+  const router = useRouter();
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const input = event.currentTarget.querySelector('input[type="email"]');
+    if (!input) {
+      router.push("/register");
+      return;
+    }
+
+    const email = (input as HTMLInputElement).value;
+    router.push(`/register?email=${email}`);
+  }
+
   return (
     <div className="w-screen h-screen">
       <Navbar />
@@ -40,11 +59,12 @@ export default function Home() {
               from one place and pay on schedule that works for you.
             </span>
 
-            <div
+            <form
               className={twMerge(
                 "flex flex-col items-center gap-2",
                 "sm:flex-row"
               )}
+              onSubmit={handleSubmit}
             >
               <Input
                 className="w-full"
@@ -55,10 +75,11 @@ export default function Home() {
               <Button
                 className={twMerge("w-full whitespace-nowrap", "sm:w-auto")}
                 color="secondary"
+                type="submit"
               >
                 Get Started
               </Button>
-            </div>
+            </form>
 
             <span className="max-w-xs text-slate-600 text-xs">
               * Credit card validation is required

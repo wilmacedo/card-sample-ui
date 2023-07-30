@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import { Button } from "./Button";
 
@@ -21,10 +22,14 @@ export function Navbar() {
           "sm:mt-0 sm:flex-row"
         )}
       >
-        <Button className="w-full sm:w-auto">Log In</Button>
-        <Button className="w-full sm:w-auto" color="primary">
-          Get Started
-        </Button>
+        <Link href="/login">
+          <Button className="w-full sm:w-auto">Log In</Button>
+        </Link>
+        <Link href="/register">
+          <Button className="w-full sm:w-auto" color="primary">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </nav>
   );
