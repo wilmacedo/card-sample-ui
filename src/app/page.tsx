@@ -22,6 +22,11 @@ export default function Home() {
     }
 
     const email = (input as HTMLInputElement).value;
+    if (!email || email.length === 0) {
+      router.push("/register");
+      return;
+    }
+
     router.push(`/register?email=${email}`);
   }
 
@@ -69,7 +74,7 @@ export default function Home() {
               <Input
                 className="w-full"
                 icon={Mail}
-                placeholder="Your Email Address"
+                placeholder="wil.macedo.sa@gmail.com"
                 type="email"
               />
               <Button

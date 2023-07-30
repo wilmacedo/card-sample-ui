@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+body {
+  @apply text-slate-200 bg-black
+}
+
+@layer components {
+  .invalid-input:has(input:invalid) {
+    @apply border-rose-300 text-rose-300
+  }
+}
