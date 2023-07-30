@@ -40,24 +40,30 @@ export default function Register() {
   }
 
   async function handleRegister(data: RegisterSchema) {
-    const request = await fetch(env.HOST + "/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (request.status !== 201) {
-      const response = await request.json();
-
-      toast({
-        title: `Oops! ${response.message}`,
+    try {
+      const request = await fetch(env.HOST + "/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-      return;
-    }
 
-    router.push("/login");
+      if (request.status !== 201) {
+        const response = await request.json();
+
+        toast({
+          title: `Oops! ${response.message}`,
+        });
+        return;
+      }
+
+      router.push("/login");
+    } catch (error) {
+      toast({
+        title: `Oops! ${(error as any).message}`,
+      });
+    }
   }
 
   return (

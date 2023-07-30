@@ -32,35 +32,41 @@ export default function Register() {
   });
 
   async function handleLogin(data: LoginSchema) {
-    const request = await fetch(env.HOST + "/sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const response = await request.json();
-    if (request.status !== 200) {
-      toast({
-        title: `Oops! ${response.message}`,
+    try {
+      const request = await fetch(env.HOST + "/sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-      return;
-    }
 
-    const { token } = response;
-    if (!token) {
-      toast({
-        title: "Oops! Token not found",
+      const response = await request.json();
+      if (request.status !== 200) {
+        toast({
+          title: `Oops! ${response.message}`,
+        });
+        return;
+      }
+
+      const { token } = response;
+      if (!token) {
+        toast({
+          title: "Oops! Token not found",
+        });
+        return;
+      }
+
+      setCookie("willpay@auth", token, {
+        maxAge: 60 * 60 * 24, // 1 day
       });
-      return;
+
+      router.push("/profile");
+    } catch (error) {
+      toast({
+        title: `Oops! ${(error as any).message}`,
+      });
     }
-
-    setCookie("willpay@auth", token, {
-      maxAge: 60 * 60 * 24, // 1 day
-    });
-
-    router.push("/profile");
   }
 
   return (
