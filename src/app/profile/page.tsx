@@ -113,7 +113,10 @@ export default async function Profile() {
         <Tabs
           tabs={[
             { title: "Wallet", children: <Wallet cards={cardList} /> },
-            { title: "Register", children: <Register /> },
+            {
+              title: "Register",
+              children: <Register token={getToken()} userId={id} />,
+            },
           ]}
         />
       </div>

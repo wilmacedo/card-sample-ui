@@ -11,4 +11,5 @@ export interface Card {
   cardholder: string;
   number: string;
   cvv: string;
+  expiration: Date | string;
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface TabsProps {
@@ -11,12 +12,28 @@ interface TabsProps {
 }
 
 export function Tabs({ tabs }: TabsProps) {
+  const router = useRouter();
+  const search = useSearchParams();
   const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const tabName = location.hash.slice(1);
+    const tabIndex = tabs.findIndex(
+      (tab) => tab.title.toLowerCase().replaceAll(" ", "") === tabName
+    );
+
+    if (tabIndex < 0) return;
+
+    setActive(tabIndex);
+  }, [search, tabs]);
 
   function handleClick(index: number) {
     if (index === active) return;
 
     setActive(index);
+
+    const tab = tabs[index];
+    router.push(`/profile#${tab.title.toLowerCase().replaceAll(" ", "")}`);
   }
 
   return (

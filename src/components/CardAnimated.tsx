@@ -9,9 +9,29 @@ interface CardProps {
 }
 
 export function CardAnimated({
-  card: { number, cardholder, cvv },
+  card: { number, cardholder, cvv, expiration },
   isFlipped,
 }: CardProps) {
+  function getExpiration() {
+    if (!expiration) return "";
+
+    let exp = String(expiration);
+
+    if (exp.includes("Z")) {
+      const regex = /^(\d{4})-(\d{2})-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+
+      const match = exp.match(regex);
+      if (!match) return exp.slice(0, 5);
+
+      const year = match[1].substring(2);
+      const month = match[2];
+
+      exp = `${month}/${year}`;
+    }
+
+    return exp.slice(0, 5);
+  }
+
   return (
     <div data-flipped={isFlipped} className="group w-full ">
       <div
@@ -29,14 +49,21 @@ export function CardAnimated({
               <div className="mt-12 flex flex-col gap-2">
                 <span className="h-6 text-black">{number}</span>
                 <div className="flex justify-between items-center">
-                  <span className="text-black text-sm">{cardholder}</span>
-                  <Image
-                    src={`/${checkCardType(number) || "MASTERCARD"}-logo.png`}
-                    width={100}
-                    height={100}
-                    alt={checkCardType(number) || "MASTERCARD"}
-                    className="h-[1rem] w-auto"
-                  />
+                  <span className="text-black text-sm truncate max-w-[7rem]">
+                    {cardholder}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-black text-sm">
+                      {getExpiration()}
+                    </span>
+                    <Image
+                      src={`/${checkCardType(number) || "MASTERCARD"}-logo.png`}
+                      width={100}
+                      height={100}
+                      alt={checkCardType(number) || "MASTERCARD"}
+                      className="h-[1rem] w-auto"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

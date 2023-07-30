@@ -3,26 +3,41 @@
 import { Button } from "@/components/Button";
 import { CardAnimated } from "@/components/CardAnimated";
 import { Input } from "@/components/Input";
+import { useToast } from "@/components/ui/use-toast";
+import { env } from "@/env";
 import { Card } from "@/types";
 import { cardMask } from "@/utils/card-mask";
 import { expirationMask } from "@/utils/expiration-mask";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+interface RegisterProps {
+  token: string | null;
+  userId: string;
+}
+
 const cardRegisterSchema = z.object({
-  number: z.string().min(14).max(16),
+  number: z.string().min(18).max(19),
   cardholder: z.string().min(3),
-  expiration: z.coerce.date(),
+  expiration: z.string().length(5),
   cvv: z.string().min(3).max(4),
 });
 
 type CardRegisterSchema = z.infer<typeof cardRegisterSchema>;
 
-export function Register() {
+export function Register({ token, userId }: RegisterProps) {
+  const { toast } = useToast();
+  const router = useRouter();
   const [flipped, setFlipped] = useState(false);
-  const { register, watch } = useForm<CardRegisterSchema>({
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<CardRegisterSchema>({
     resolver: zodResolver(cardRegisterSchema),
     defaultValues: {
       number: "",
@@ -62,10 +77,58 @@ export function Register() {
     setFlipped(false);
   }
 
+  async function handleRegister({
+    number,
+    cardholder,
+    cvv,
+    expiration,
+  }: CardRegisterSchema) {
+    number = number.replaceAll(" ", "");
+
+    try {
+      const [month, year] = expiration.split("/");
+      const exp = new Date(`${"20" + year}-${month}-01`);
+
+      const request = await fetch(env.HOST + "/cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(token),
+        },
+        body: JSON.stringify({
+          number,
+          cardholder,
+          cvv,
+          expiration: exp,
+          userId,
+        }),
+      });
+
+      if (request.status === 201) {
+        router.refresh();
+        router.push("/profile#wallet");
+        return;
+      }
+
+      const response = await request.json();
+
+      toast({
+        title: `Oops! ${response.message}`,
+      });
+    } catch (error) {
+      toast({
+        title: `Oops! ${(error as any).message}`,
+      });
+    }
+  }
+
   return (
     <div className="flex items-center gap-4">
       <div className="w-full p-4 flex items-center justify-center rounded-md border border-gray-800">
-        <form className="px-1 w-full flex flex-col gap-2 text-sm">
+        <form
+          className="px-1 w-full flex flex-col gap-2 text-sm"
+          onSubmit={handleSubmit(handleRegister)}
+        >
           <label htmlFor="number">Number</label>
           <Input
             {...register("number", {
@@ -115,7 +178,7 @@ export function Register() {
             </div>
           </div>
 
-          <Button className="mt-4" color="secondary">
+          <Button className="mt-4" color="secondary" disabled={!isValid}>
             Add
           </Button>
         </form>
