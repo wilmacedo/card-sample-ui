@@ -119,7 +119,7 @@ export default function Register() {
               </Button>
               <span className="mt-2 text-xs text-center text-white text-opacity-70">
                 Do not have account?{" "}
-                <Link href="/login" className="text-white hover:underline">
+                <Link href="/register" className="text-white hover:underline">
                   Register
                 </Link>
               </span>
