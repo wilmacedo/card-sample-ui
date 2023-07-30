@@ -1,4 +1,5 @@
 import { Card } from "@/types";
+import { checkCardType } from "@/utils/check-card-type";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
@@ -26,14 +27,14 @@ export function CardAnimated({
               <div className="bg-black rounded-t-full w-6 h-[.75rem] rotate-90" />
 
               <div className="mt-12 flex flex-col gap-2">
-                <span className="text-black">{number}</span>
+                <span className="h-6 text-black">{number}</span>
                 <div className="flex justify-between items-center">
                   <span className="text-black text-sm">{cardholder}</span>
                   <Image
-                    src="/mastercard-logo.png"
+                    src={`/${checkCardType(number) || "MASTERCARD"}-logo.png`}
                     width={100}
                     height={100}
-                    alt="Mastercard"
+                    alt={checkCardType(number) || "MASTERCARD"}
                     className="h-[1rem] w-auto"
                   />
                 </div>
