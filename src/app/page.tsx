@@ -73,6 +73,7 @@ export default function Home() {
             >
               <Input
                 className="w-full"
+                name="email"
                 icon={Mail}
                 placeholder="wil.macedo.sa@gmail.com"
                 type="email"
